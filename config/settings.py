@@ -47,8 +47,8 @@ INSTALLED_APPS = [
 
     'users',
     'rest_framework',
-    'lesson',
-    'course',
+    'materials',
+
 
 ]
 
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coursework6',
+        'NAME': 'learning_platform',
         'USER': 'postgres', # Пользователь для подключения
         'PASSWORD': getenv('PASSWORD_BD'), # Пароль для этого пользователя
         'HOST': '127.0.0.1', # Адрес, на котором развернут сервер БД

@@ -20,3 +20,8 @@ class IsObjectOwnerOrModerator(BasePermission):
         if is_moderator(request.user):
             return True
         return request.user == obj.owner
+
+class IsSubscriber(BasePermission):
+
+    def has_permission(self, request, view):
+        return request.user == view.get_object().user

@@ -9,6 +9,8 @@ from materials.permissions import IsNotModerator, IsObjectOwner, IsObjectOwnerOr
 
 from users.services import is_moderator
 
+from materials.tasks import task_send_mail
+
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
@@ -26,6 +28,10 @@ class CourseViewSet(viewsets.ModelViewSet):
         course = serializer.save()
         course.owner = self.request.user
         course.save()
+
+    def perform_update(self, serializer, *args, **kwargs):
+        task_send_mail.delay(self.kwargs.get('pk'))
+        super().perform_update(serializer)
 
     def get_permissions(self):
         if self.action == 'create':

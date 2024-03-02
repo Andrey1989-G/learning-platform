@@ -16,6 +16,8 @@ from os import getenv
 
 from dotenv import load_dotenv
 
+from datetime import timedelta
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'drf_yasg',
+    'django_celery_beat',
 
 ]
 
@@ -206,3 +209,23 @@ SIMPLE_JWT = {
 # ]
 #
 # CORS_ALLOW_ALL_ORIGINS = False
+
+# CELERY_BROKER_URL = bool(getenv('CELERY_BROKER_URL'))
+#
+# CELERY_RESULT_BACKEND = bool(getenv('CELERY_RESULT_BACKEND'))
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_TIMEZONE = "Australia/Tasmania"
+
+CELERY_TASK_TRACK_STARTED = True
+
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'users.tasks.deactivation_user_last_login',
+        'schedule': timedelta(minutes=1),
+    },
+}

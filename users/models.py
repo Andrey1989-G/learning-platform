@@ -5,8 +5,8 @@ from django.contrib.auth.models import AbstractUser
 NULLABLE = {'null': True, 'blank': True}
 
 class User(AbstractUser):
-
-    username = models.EmailField(unique=True, null=True, verbose_name='username')
+    # поправляю замечания наставника
+    username = None
     email = models.EmailField(unique=True, verbose_name='почта')
     phone = models.CharField(max_length=35, verbose_name='телефон', **NULLABLE)
     avatar = models.ImageField(upload_to='media/', verbose_name='аватар', **NULLABLE)

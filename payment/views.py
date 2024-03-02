@@ -1,5 +1,3 @@
-from rest_framework.permissions import IsAuthenticated
-
 # Create your views here.
 from materials.models import Course
 from payment.models import Payment

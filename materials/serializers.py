@@ -16,7 +16,7 @@ class CourseSerializer(serializers.ModelSerializer):
     count_lesson = serializers.SerializerMethodField(read_only=True)
     lesson = LessonSerializer(many=True, read_only=True)
 
-    is_aktive_subscription_user_on_course = serializers.SerializerMethodField(read_only=True)
+    is_active_subscription_user_on_course = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Course

@@ -8,22 +8,27 @@ NULLABLE = {'null': True, 'blank': True}
 class User(AbstractUser):
     # поправляю замечания наставника
     # пришлось вернуть определенное поле username так как сериализатор выдавал ошибку
-    username = models.EmailField(unique=True, null=True, verbose_name='username')
+    username = None
     email = models.EmailField(unique=True, verbose_name='почта')
     phone = models.CharField(max_length=35, verbose_name='телефон', **NULLABLE)
     avatar = models.ImageField(upload_to='media/', verbose_name='аватар', **NULLABLE)
     auth_guid_code = models.CharField(max_length=36, verbose_name='код', **NULLABLE)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username',]
+    REQUIRED_FIELDS = []
 
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('Поле имэйл должен быть заполнен')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
+    # def create_user(self, email, password=None, **extra_fields):
+    #     if not email:
+    #         raise ValueError('Поле имэйл должен быть заполнен')
+    #     email = self.normalize_email(email)
+    #     user = self.model(email=email, **extra_fields)
+    #     user.set_password(password)
+    #     user.save(using=self._db)
+    #     return user
+    def create(self, validated_data):
+        user = User.objects.create(**validated_data)
+        user.set_password(user.password)
+        user.save()
         return user
 
     class Meta:
